@@ -7,3 +7,5 @@ The project demonstrates the use of web technologies to build a user-friendly an
 
 By sharing this repository, I aim to provide an example implementation of a dental clinic website using ASP.NET and related technologies, serving as a valuable resource for other developers and students interested in web development and dental clinic management systems.
 
+This is video presentation of project: https://github.com/SamirK95/Dental-Clinic-Dentalis/blob/BranchForEditing/Dentalis%20Presentation.mp4
+
