@@ -22,6 +22,7 @@ public partial class Forms_Kontakt : System.Web.UI.Page
         string prezime = txtPrezime.Text;
         string jmbg = txtJMBG.Text;
         string email = txtEmail.Text;
+        string broj = txtBrojTelefona.Text;
         string poruka = txtPoruka.Text;
 
         //Konfiguracija SMTP klijenta
@@ -34,7 +35,38 @@ public partial class Forms_Kontakt : System.Web.UI.Page
         mailMessage.From = new MailAddress("valerie.pouros65@ethereal.email"); // Pošiljateljska email adresa
         mailMessage.To.Add("valerie.pouros65@ethereal.email"); // Primateljska e-mail adresa
         mailMessage.Subject = "Nova stomatološka rezervacija"; // Naslov poruke
-        mailMessage.Body = $"Ime: {ime}\nPrezime: {prezime}\nJMBG: {jmbg}\nE-mail: {email}\nPoruka: {poruka}"; // Sadržaj poruke
+        mailMessage.Body = $"Ime: {ime}\nPrezime: {prezime}\nJMBG: {jmbg}\nE-mail: {email}\nBroj telefona: {broj}\nPoruka: {poruka}"; // Sadržaj poruke
+
+        // Provjeravamo da li je polje za unos imena prazno
+        if (String.IsNullOrEmpty(ime))
+        {
+            lblIspis.Text = "Polje za ime je obavezno!";
+            return;
+        }
+        // Provjeravamo da li je polje za unos prezimena prazno
+        if (String.IsNullOrEmpty(prezime))
+        {
+            lblIspis.Text = "Polje za prezime je obavezno!";
+            return;
+        }
+        // Provjeravamo da li je polje za broj prazno
+        if (String.IsNullOrEmpty(broj))
+        {
+            lblIspis.Text = "Polje za unos broja telefona je obavezno!";
+            return;
+        }
+        // Provjeravamo da li je korisnik unjeo sve brojeve i dopustamo samo znakove ( - i / )
+        if (!broj.All(c => char.IsDigit(c) || c == '-' || c == '/'))
+        {
+            lblIspis.Text = "Broj telefona ne može sadržavati slova ili druge znakove osim '-' i '/'!";
+            return;
+        }
+        // Provjeravamo da li je korisnik unjeo ispravan format za broj telefona
+        if (!IsBrojTelefonaValid(broj))
+        {
+            lblIspis.Text = "Unijeli ste broj telefona u pogrešnom formatu.";
+        }
+        
         //Provjera da li je jmbg jednak 13 cifara i da li su sve brojevi 
         if (jmbg.Length==13 && jmbg.All(char.IsDigit))
         {
@@ -66,9 +98,26 @@ public partial class Forms_Kontakt : System.Web.UI.Page
             return; // Prekid izvršavanja metode nakon prikaza poruke
         }
     }
+
+
+
     //Provjera da li mejl sadrži specijalni simbol @
     protected bool IsValidEmail(string email)
     {
-        return email.Contains("@");
+        string emailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+        return System.Text.RegularExpressions.Regex.IsMatch(email, emailPattern);
     }
+
+
+
+    // Provjera da li je broj telefona u ispravnom formatu
+    protected bool IsBrojTelefonaValid(string broj)
+    {
+        // Koristimo regularni izraz za provjeru formata broja telefona
+        string phonePattern = @"^\d{3}-\d{3}-\d{3}$|^\d{3}-\d{3}/\d{3}$|^\d{3}/\d{3}/\d{3}$";
+
+        // Provjeravamo da li uneseni broj odgovara formatu.
+        return System.Text.RegularExpressions.Regex.IsMatch(broj, phonePattern);
+    }
+
 }

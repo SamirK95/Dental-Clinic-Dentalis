@@ -103,6 +103,14 @@
                     <asp:TextBox ID="txtEmail" runat="server" placeholder="Unesite e-mail"></asp:TextBox>
                   </td>
                 </tr>
+                  <tr>
+                      <td>
+                          <asp:Label ID="lblBrojTelefona" runat="server" Text="Broj telefona: "></asp:Label>
+                      </td>
+                      <td>
+                          <asp:TextBox ID="txtBrojTelefona" runat="server" placeholder="Unesite broj telefona"></asp:TextBox>
+                      </td>
+                  </tr>
                 <tr>
                   <td>
                     <asp:Label ID="lblPoruka" runat="server" Text="Poruka (Optional): "></asp:Label>
